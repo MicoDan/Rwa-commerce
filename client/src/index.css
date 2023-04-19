@@ -27,7 +27,7 @@ main{
   flex: 1;
 }
 
-#btn-primary {
+#btn-primary, #button-search {
   background-color: #f0c040;
   color: black;
 }
@@ -65,4 +65,31 @@ main{
   text-align: center;
   margin-top: 1em;
   color: rgb(0, 89, 255);
+}
+/*sidebar*/
+.navbar-brand {
+  font-weight: bold;
+}
+.site-container {
+  transition: 0.4s;
+}
+
+.side-navbar {
+  width: 240px;
+  height: 100%;
+  position: absolute;
+  left: -300px;
+  background-color: #100901;
+  transition: 0.5s;
+}
+
+.active-cont {
+  margin-left: 240px;
+}
+
+.active-nav {
+  left: 0;
+}
+#navbar{
+  height: 100vh
 }
