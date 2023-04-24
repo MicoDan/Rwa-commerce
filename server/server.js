@@ -6,7 +6,8 @@ import seedRouter from './routes/seedRoutes.js';
 import productRouter from './routes/productRoutes.js';
 import userRouter from './routes/userRoutes.js';
 import orderRouter from './routes/orderRoutes.js';
-
+import uploadRouter from './routes/uploadRouter.js';
+import morgan from 'morgan';
 
 dotenv.config()
 const MONGODB_URI = process.env.MONGODB_URI 
@@ -21,16 +22,21 @@ mongoose.connect(MONGODB_URI)
 
 
 const app = express();
-
+app.use(cors({origin: "http://localhost:5000"}));
+app.use(morgan("dev"))
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
 
-app.use(cors());
 app.use('/api/seed', seedRouter)
+app.use('/api/upload', uploadRouter)
 app.use('/api/products', productRouter)
 app.use('/api/users', userRouter)
 app.use('/api/orders', orderRouter)
+
+app.get("/api/keys/google", (req, res) => {
+  res.send({ key: process.env.GOOGLE_API_KEY || "" });
+});
 
 app.get('./api/keys/paypal', (req, res) => {
   res.send(process.env.PAYPAL_CLIENT_ID || sb)

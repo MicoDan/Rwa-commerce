@@ -51,29 +51,36 @@ export default function SigninScreen() {
       </Helmet>
       <h1 className="my-3">Sign In</h1>
       <Form onSubmit={submitHandler}>
-        <Form.Group className="mb-3" controlId="email">
-          <Form.Label>Email</Form.Label>
+        <Form.Group className="mb-3 form-floating" controlId="email">
           <Form.Control
+            id="email"
+            placeholder="place your email here"
             type="email"
             required
             onChange={(e) => setEmail(e.target.value)}
           />
+          <Form.Label for="email">Email</Form.Label>
         </Form.Group>
-        <Form.Group className="mb-3" controlId="password">
-          <Form.Label>Password</Form.Label>
+        <Form.Group className="mb-3 form-floating" controlId="password">
           <Form.Control
+            placeholder="Enter your password here"
+            id="password"
             type="password"
             required
             onChange={(e) => setPassword(e.target.value)}
           />
+          <Form.Label for="password">Password</Form.Label>
         </Form.Group>
-        <Button type="submit">Sign In</Button>
+        <Button type="submit" variant="warning">Sign In</Button>
       </Form>
       <div className="mb-3"></div>
       <div>
         New customer?{" "}
-        <Link to={`/signup?redirect=${redirect}`}>Create your account</Link>
+        <Link to={`/signup?redirect=${redirect}`} style={{color: 'gold', textDecoration: 'none'}}>Create your account</Link>
       </div>
+      {/* <div className="mb-3">
+          Forget Password? <Link to={`/forget-password`} style={{color: 'gold', textDecoration: 'none'}}>Reset Password</Link>
+        </div> */}
     </Container>
   );
 }

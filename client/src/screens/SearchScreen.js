@@ -4,7 +4,16 @@ import { getError } from "../utils";
 import axios from "axios";
 import { Helmet } from "react-helmet-async";
 import Row from "react-bootstrap/Row";
-import Column from "react-bootstrap/Column";
+import Rating from "../components/Rating";
+import MessageBox from "../components/MessageBox";
+import LoadingBox from "../components/LoadingBox";
+import Button from "react-bootstrap/Button";
+import Product from "../components/Product";
+import { LinkContainer } from "react-router-bootstrap";
+import { toast } from "react-toastify";
+import Col from "react-bootstrap/Col";
+import SearchBox from "../components/SearchBox";
+
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -25,6 +34,8 @@ const reducer = (state, action) => {
       return state;
   }
 };
+
+
 
 export default function SearchScreen() {
   const navigate = useNavigate();
@@ -52,16 +63,18 @@ export default function SearchScreen() {
         const { data } = await axios.get(
           `/api/products/search?page=${page}&query=${query}&category=${category}&price=${price}`
         );
+        
+    
         dispatch({ type: "FETCH_SUCCESS", payload: data });
       } catch (err) {
         dispatch({
           type: "FETCH_FAIL",
-          payload: getError(error),
+          payload: getError(err),
         });
       }
     };
     fetchData();
-  }, [category, error, order, page, price, query, rating]);
+  }, [category, loading, order, page, price, query, rating]);
 
   const [categories, setCategories] = useState([]);
 
@@ -77,42 +90,62 @@ export default function SearchScreen() {
     fetchCategories();
   }, [dispatch]);
 
-  const getFilterUrl = (filter) => {
+  const getFilterUrl = ({ filter = {} }) => {
     const filterPage = filter.page || page;
     const filterCategory = filter.category || category;
     const filterQuery = filter.query || query;
     const filterRating = filter.rating || rating;
     const filterPrice = filter.price || price;
     const sortOrder = filter.order || order;
-    return `/search?category=${filterCategory}&query=${filterQuery}&price=${filterPrice}&rating=${filterRating}&order=${sortOrder}&page=${filterpage}`;
+    return `/search?category=${filterCategory}&query=${filterQuery}&price=${filterPrice}&rating=${filterRating}&order=${sortOrder}&page=${filterPage}`;
   };
 
   return (
     <div>
+      <SearchBox />
       <Helmet>
         <title>Search Products</title>
       </Helmet>
       <Row>
-        <Col md={3}>
-            <h3>Department</h3>
-            <div>
-                <ul>
-                    <li>
-                        <Link
-                        className={'all' === category ? 'text-bold' : ''}
-                        to={getFilterUrl({ category: 'all'})}
-                        >Any</Link>
-                    </li>
-                    {categories.map((c) => (
-                          <li key={c}>
-                            <Link
-                            className={c === category ? 'text-bold' : ''}
-                            to={getFilterUrl({ category: c})}
-                            >{c}</Link>
-                          </li>
-                    ))}
-                </ul>
-            </div>
+        <Col md={9}>
+          {loading ? (
+            <LoadingBox></LoadingBox>
+          ) : error ? (
+            <MessageBox variant="danger">{error}</MessageBox>
+          ) : (
+            <>   
+              {products?.length === 0 && (
+                <MessageBox>No Product Found</MessageBox>
+              )}
+              <Row>
+                {products.map((product) => (
+                  <Col sm={6} lg={3} className="mb-3" key={product._id}>
+                    <Product product={product} key={product._id}></Product>
+                  </Col>
+                ))}
+              </Row>
+              <div>
+                {/* counts number of pages and maps them to the button */}
+                {[...Array(pages).keys()].map((x) => (
+                  <LinkContainer
+                    key={x + 1}
+                    className="mx-1"
+                    to={{
+                      pathname: '/search',
+                      search: getFilterUrl({ page: x + 1 ? "text-bold" : "" })
+                    }}
+                  >
+                    <Button
+                      className={Number(page) === x + 1 ? "text-bold" : ""}
+                      variant="light"
+                    >
+                      {x + 1}
+                    </Button>
+                  </LinkContainer>
+                ))}
+              </div>
+            </>
+          )}
         </Col>
       </Row>
     </div>

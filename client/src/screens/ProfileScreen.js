@@ -66,40 +66,49 @@ export default function ProfileScreen() {
       </Helmet>
       <h1 className="my-3">User Profile</h1>
       <form onSubmit={submitHandler}>
-        <Form.Group className="mb-3" controlId="name">
-          <Form.Label>Name</Form.Label>
+        <Form.Group className="mb-3 form-floating" controlId="name">
           <Form.Control
+           id="name"
+           type="name"
+           placeholder="enter your email here"
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
+          <Form.Label for="name">Name</Form.Label>
         </Form.Group>
-        <Form.Group className="mb-3" controlId="name">
-          <Form.Label>Email</Form.Label>
+        <Form.Group className="mb-3 form-floating" controlId="name">
           <Form.Control
             type="email"
+            id="email"
+            placeholder="place your email here"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
           />
+          <Form.Label for="email">Email</Form.Label>
         </Form.Group>
-        <Form.Group className="mb-3" controlId="password">
-          <Form.Label>Password</Form.Label>
+        <Form.Group className="mb-3 form-floating" controlId="password">
           <Form.Control
+            id="password"
+            placeholder="Enter your password here"
             type="password"
             onChange={(e) => setPassword(e.target.value)}
             required
           />
+          <Form.Label for="password">Password</Form.Label>
         </Form.Group>
-        <Form.Group className="mb-3" controlId="password">
-          <Form.Label>Confirm Password</Form.Label>
+        <Form.Group className="mb-3 form-floating" controlId="password">
           <Form.Control
+            id="confirmPassword"
+            placeholder="Enter your password here"
             type="password"
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
           />
+          <Form.Label for="confirmPassword">Confirm Password</Form.Label>
         </Form.Group>
         <div className="mb-3">
-          <Button type="submit">Update</Button>
+          <Button type="submit" variant="warning">Update</Button>
         </div>
       </form>
     </div>

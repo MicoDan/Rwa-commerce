@@ -5,6 +5,7 @@ import Rating from "./Rating";
 import axios from "axios";
 import { useContext } from "react";
 import { Store } from "../Store";
+import { motion } from 'framer-motion'
 
 export default function Product(props) {
   const { product } = props;
@@ -21,6 +22,7 @@ export default function Product(props) {
       window.alert("Sorry. the product is out stock");
       return;
     }
+    
 
     ctxDispatch({
       type: "CART_ADD_ITEM",
@@ -29,12 +31,15 @@ export default function Product(props) {
   };
 
   return (
-    <Card>
+    <motion.div
+    whileHover={{ scale: 1.1}}
+    >
+    <Card style={{margin: '2em'}}>
       <Link to={`/product/${product.slug}`}>
         <img src={product.image} className="card-img-top" alt={product.name} />
       </Link>
       <Card.Body>
-        <Link to={`/product/${product.slug}`}>
+        <Link style={{color: 'black', textDecoration: 'none'}}  to={`/product/${product.slug}`}>
           <Card.Title>{product.name}</Card.Title>
         </Link>
         <Rating rating={product.rating} numReviews={product.numReviews} />
@@ -44,5 +49,6 @@ export default function Product(props) {
   }
       </Card.Body>
     </Card>
+    </motion.div>
   );
 }

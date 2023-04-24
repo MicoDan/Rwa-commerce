@@ -23,13 +23,12 @@ export default function ShippingAddressScreen() {
   const [country, setCountry] = useState(
     state.cart.shippingAddress.country || ""
   );
-  
-   useEffect(()=> {
-    if(!state.userInfo) {
-        navigate('/signin?redirect=/shipping')
-    }
-   }, [state.userInfo, navigate ])
 
+  useEffect(() => {
+    if (!state.userInfo) {
+      navigate("/signin?redirect=/shipping");
+    }
+  }, [state.userInfo, navigate]);
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -104,6 +103,25 @@ export default function ShippingAddressScreen() {
               required
             />
           </Form.Group>
+          <div className="mb-3">
+            <Button
+              id="chooseOnMap"
+              type="button"
+              variant="light"
+              onClick={() => navigate("/map")}
+            >
+              Choose Location On Map
+            </Button>
+            {state.cart.shippingAddress.location &&
+            state.cart.shippingAddress.location.lat ? (
+              <div>
+                LAT: {state.cart.shippingAddress.location.lat}
+                LNG:{state.cart.shippingAddress.location.lng}
+              </div>
+            ) : (
+              <div>No location</div>
+            )}
+          </div>
           <div className="mb-3">
             <Button variant="primary" type="submit">
               Continue
