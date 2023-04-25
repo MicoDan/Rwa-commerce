@@ -34,7 +34,7 @@ function HomeScreen() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const result = await axios.get('/api/products');
+        const result = await axios.get('https://rwashopbackend.onrender.com/api/products');
         if(result){
         dispatch({ type: 'FETCH_SUCCESS', payload: result.data });
         }
