@@ -160,7 +160,7 @@ export default function App() {
             <Nav.Item>
               <strong>Categories</strong>
             </Nav.Item>
-            {categories.map((category) => (
+            {Array.isArray(categories) && categories.map((category) => (
               <Nav.Item key={category}>
                 <LinkContainer
                   to={{
