@@ -35,11 +35,9 @@ function HomeScreen() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const result = await axios.get(br + '/api/products', {
-          headers: {
-            "Access-Control-Allow-Origin": "*"
-          }
-        });
+        const result = await axios.get(br + '/api/products', 
+          
+        );
         if(result){
         dispatch({ type: 'FETCH_SUCCESS', payload: result.data });
         }
