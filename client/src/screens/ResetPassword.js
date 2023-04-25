@@ -7,7 +7,7 @@ import { Helmet } from 'react-helmet-async';
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { Store } from '../Store';
-import { getError } from '../utils';
+import { br, getError } from '../utils';
 
 export default function ResetPasswordScreen() {
   const navigate = useNavigate();
@@ -32,9 +32,13 @@ export default function ResetPasswordScreen() {
       return;
     }
     try {
-      await Axios.post('/api/users/reset-password', {
+      await Axios.post( br + '/api/users/reset-password', {
         password,
         token,
+      }, {
+        headers: {
+          "Access-Control-Allow-Origin": "*"
+        }
       });
       navigate('/signin');
       toast.success('Password updated successfully');

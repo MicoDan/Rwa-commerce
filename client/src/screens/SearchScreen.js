@@ -1,6 +1,6 @@
 import React, { useEffect, useReducer, useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { getError } from "../utils";
+import { br, getError } from "../utils";
 import axios from "axios";
 import { Helmet } from "react-helmet-async";
 import Row from "react-bootstrap/Row";
@@ -61,7 +61,12 @@ export default function SearchScreen() {
     const fetchData = async () => {
       try {
         const { data } = await axios.get(
-          `/api/products/search?page=${page}&query=${query}&category=${category}&price=${price}`
+         br + `/api/products/search?page=${page}&query=${query}&category=${category}&price=${price}`,
+         {
+          headers: {
+            "Access-Control-Allow-Origin": "*"
+          }
+         }
         );
         
     
@@ -81,7 +86,10 @@ export default function SearchScreen() {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const { data } = await axios.get(`/api/products/categories`);
+        const { data } = await axios.get(br + `/api/products/categories`,
+        {
+          headers: { "Access-Control-Allow-Origin": "*"}
+        });
         setCategories(data);
       } catch (error) {
         toast.error(getError(error));

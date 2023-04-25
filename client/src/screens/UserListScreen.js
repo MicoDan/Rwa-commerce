@@ -7,7 +7,7 @@ import { toast } from 'react-toastify';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
 import { Store } from '../Store';
-import { getError } from '../utils';
+import { br, getError } from '../utils';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -52,8 +52,8 @@ export default function UserListScreen() {
     const fetchData = async () => {
       try {
         dispatch({ type: 'FETCH_REQUEST' });
-        const { data } = await axios.get(`/api/users`, {
-          headers: { Authorization: `Bearer ${userInfo.token}` },
+        const { data } = await axios.get(br + `/api/users`, {
+          headers: { Authorization: `Bearer ${userInfo.token}`,  "Access-Control-Allow-Origin": "*" },
         });
         dispatch({ type: 'FETCH_SUCCESS', payload: data });
       } catch (err) {
@@ -74,8 +74,8 @@ export default function UserListScreen() {
     if (window.confirm('Are you sure to delete?')) {
       try {
         dispatch({ type: 'DELETE_REQUEST' });
-        await axios.delete(`/api/users/${user._id}`, {
-          headers: { Authorization: `Bearer ${userInfo.token}` },
+        await axios.delete(br + `/api/users/${user._id}`, {
+          headers: { Authorization: `Bearer ${userInfo.token}`,  "Access-Control-Allow-Origin": "*" },
         });
         toast.success('user deleted successfully');
         dispatch({ type: 'DELETE_SUCCESS' });

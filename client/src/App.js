@@ -22,7 +22,7 @@ import PlaceOrderScreen from "./screens/PlaceOrderScreen";
 import OrderHistoryScreen from "./screens/OrderHistoryScreen";
 import ProfileScreen from "./screens/ProfileScreen";
 import Button from "react-bootstrap/Button";
-import { getError } from "./utils";
+import { br, getError } from "./utils";
 import axios from "axios";
 import SearchScreen from "./screens/SearchScreen";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -58,7 +58,9 @@ export default function App() {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const { data } = await axios.get(`/api/products/categories`);
+        const { data } = await axios.get(br + `/api/products/categories`, {
+          headers: { "Access-Control-Allow-Origin": "*"}
+        });
         setCategories(data);
       } catch (error) {
         toast.error(getError(error));

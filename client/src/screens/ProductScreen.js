@@ -12,7 +12,7 @@ import Rating from '../components/Rating';
 import { Helmet } from 'react-helmet-async';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
-import { getError } from '../utils';
+import { br, getError } from '../utils';
 import { Store } from '../Store';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import { toast } from 'react-toastify';
@@ -59,7 +59,11 @@ function ProductScreen() {
     const fetchData = async () => {
       dispatch({ type: 'FETCH_REQUEST' });
       try {
-        const result = await axios.get(`/api/products/slug/${slug}`);
+        const result = await axios.get(br + `/api/products/slug/${slug}`, {
+          headers: {
+            "Access-Control-Allow-Origin": "*"
+          }
+        });
         dispatch({ type: 'FETCH_SUCCESS', payload: result.data });
       } catch (err) {
         dispatch({ type: 'FETCH_FAIL', payload: getError(err) });
@@ -73,7 +77,9 @@ function ProductScreen() {
   const addToCartHandler = async () => {
     const existItem = cart.cartItems.find((x) => x._id === product._id);
     const quantity = existItem ? existItem.quantity + 1 : 1;
-    const { data } = await axios.get(`/api/products/${product._id}`);
+    const { data } = await axios.get(br + `/api/products/${product._id}`, {
+      headers: { "Access-Control-Allow-Origin": "*"}
+    });
     if (data.countInStock < quantity) {
       window.alert('Sorry. Product is out of stock');
       return;
@@ -93,10 +99,12 @@ function ProductScreen() {
     }
     try {
       const { data } = await axios.post(
+        br + 
         `/api/products/${product._id}/reviews`,
         { rating, comment },
         {
-          headers: { Authorization: `Bearer ${userInfo.token}` },
+          headers: { Authorization: `Bearer ${userInfo.token}`,
+          "Access-Control-Allow-Origin": "*" },
         }
       );
   

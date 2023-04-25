@@ -8,7 +8,7 @@ import { toast } from 'react-toastify';
 import { Store } from '../Store';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
-import { getError } from '../utils';
+import { br, getError } from '../utils';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -80,8 +80,9 @@ export default function ProductListScreen() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data } = await axios.get(`/api/products/admin?page=${page} `, {
+        const { data } = await axios.get(br + `/api/products/admin?page=${page} `, {
           headers: { Authorization: `Bearer ${userInfo.token}` },
+          "Access-Control-Allow-Origin": "*"
         });
 
         dispatch({ type: 'FETCH_SUCCESS', payload: data });
@@ -100,10 +101,12 @@ export default function ProductListScreen() {
       try {
         dispatch({ type: 'CREATE_REQUEST' });
         const { data } = await axios.post(
+          br +
           '/api/products',
           {},
           {
             headers: { Authorization: `Bearer ${userInfo.token}` },
+            "Access-Control-Allow-Origin": "*"
           }
         );
         toast.success('product created successfully');
@@ -121,8 +124,9 @@ export default function ProductListScreen() {
   const deleteHandler = async (product) => {
     if (window.confirm('Are you sure to delete?')) {
       try {
-        await axios.delete(`/api/products/${product._id}`, {
+        await axios.delete(br + `/api/products/${product._id}`, {
           headers: { Authorization: `Bearer ${userInfo.token}` },
+          "Access-Control-Allow-Origin": "*"
         });
         toast.success('product deleted successfully');
         dispatch({ type: 'DELETE_SUCCESS' });

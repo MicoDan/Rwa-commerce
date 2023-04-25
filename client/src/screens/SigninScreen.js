@@ -8,7 +8,7 @@ import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { Store } from "../Store";
 import { toast } from "react-toastify";
-import { getError } from "../utils";
+import { br, getError } from "../utils";
 
 
 export default function SigninScreen() {
@@ -26,9 +26,13 @@ export default function SigninScreen() {
   const submitHandler = async (e) => {
     e.preventDefault();
     try {
-      const { data } = await axios.post("/api/users/signin", {
+      const { data } = await axios.post(br + "/api/users/signin", {
         email,
         password,
+      }, {
+        headers: {
+          "Access-Control-Allow-Origin": "*"
+        }
       });
       ctxDispatch({ type: "USER_SIGNIN", payload: data });
       localStorage.setItem("userInfo", JSON.stringify(data));

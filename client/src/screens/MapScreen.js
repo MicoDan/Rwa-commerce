@@ -10,6 +10,7 @@ import { useNavigate } from 'react-router-dom';
 import { Store } from '../Store';
 import Button from 'react-bootstrap/Button';
 import { toast } from 'react-toastify';
+import { br } from '../utils';
 
 const defaultLocation = { lat: 45.516, lng: -73.56 };
 const libs = ['places'];
@@ -44,8 +45,8 @@ export default function MapScreen() {
   };
   useEffect(() => {
     const fetch = async () => {
-      const { data } = await axios('/api/keys/google', {
-        headers: { Authorization: `BEARER ${userInfo.token}` },
+      const { data } = await axios(br + '/api/keys/google', {
+        headers: { Authorization: `BEARER ${userInfo.token}`, "Access-Control-Allow-Origin": "*" },
       });
       setGoogleApiKey(data.key);
       getUserCurrentLocation();

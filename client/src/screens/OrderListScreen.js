@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
 import { Store } from '../Store';
-import { getError } from '../utils';
+import { br, getError } from '../utils';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -50,8 +50,8 @@ export default function OrderListScreen() {
     const fetchData = async () => {
       try {
         dispatch({ type: 'FETCH_REQUEST' });
-        const { data } = await axios.get(`/api/orders`, {
-          headers: { Authorization: `Bearer ${state.userInfo.token}` },
+        const { data } = await axios.get(br + `/api/orders`, {
+          headers: { Authorization: `Bearer ${state.userInfo.token}`, "Access-Control-Allow-Origin": "*" },
         })
         if(data){
           console.log(data)
@@ -77,8 +77,8 @@ export default function OrderListScreen() {
     if (window.confirm('Are you sure to delete?')) {
       try {
         dispatch({ type: 'DELETE_REQUEST' });
-        await axios.delete(`/api/orders/${order._id}`, {
-          headers: { Authorization: `Bearer ${state.userInfo.token}` },
+        await axios.delete(br + `/api/orders/${order._id}`, {
+          headers: { Authorization: `Bearer ${state.userInfo.token}`, "Access-Control-Allow-Origin": "*" },
         });
         toast.success('order deleted successfully');
         dispatch({ type: 'DELETE_SUCCESS' });

@@ -6,6 +6,7 @@ import axios from "axios";
 import { useContext } from "react";
 import { Store } from "../Store";
 import { motion } from 'framer-motion'
+import { br } from "../utils";
 
 export default function Product(props) {
   const { product } = props;
@@ -17,7 +18,9 @@ export default function Product(props) {
   const addToCartHandler = async (item) => {
     const existItem = cartItems.find((x) => x._id === product._id);
     const quantity = existItem ? existItem.quantity + 1 : 1;
-    const { data } = await axios.get(`/api/products/${item._id}`);
+    const { data } = await axios.get(br + `/api/products/${item._id}`, {
+      headers: { "Access-Control-Allow-Origin": "*"}
+    });
     if (data.countInStock < quantity) {
       window.alert("Sorry. the product is out stock");
       return;

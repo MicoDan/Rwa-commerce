@@ -7,6 +7,7 @@ import { getError } from "../utils";
 import Button from "react-bootstrap/Button";
 import { Store } from "../Store";
 import axios from "axios";
+import { br } from "../utils";
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -34,8 +35,8 @@ export default function OrderHistoryScreen() {
     const fetchData = async () => {
       dispatch({ type: "FETCH_REQUEST" });
       try {
-        const { data } = await axios.get(`/api/orders/mine`, {
-          headers: { Authorization: `Bearer ${state.userInfo.token}` },
+        const { data } = await axios.get(br + `/api/orders/mine`, {
+          headers: { Authorization: `Bearer ${state.userInfo.token}`, "Access-Control-Allow-Origin": "*" },
         });
         dispatch({ type: "FETCH_SUCCESS", payload: data });
       } catch (error) {

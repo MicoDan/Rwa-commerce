@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { Store } from "../Store";
-import { getError } from "../utils";
+import { br, getError } from "../utils";
 import Container from "react-bootstrap/Container";
 import ListGroup from "react-bootstrap/ListGroup";
 import Form from "react-bootstrap/Form";
@@ -68,7 +68,11 @@ export default function ProductEditScreen() {
     const fetchData = async () => {
       try {
         dispatch({ type: "FETCH_REQUEST" });
-        const { data } = await axios.get(`/api/products/${productId}`);
+        const { data } = await axios.get(br + `/api/products/${productId}`,{
+        headers: {
+          "Access-Control-Allow-Origin": "*"
+        }}
+        );
         setName(data.name);
         setSlug(data.slug);
         setPrice(data.price);
@@ -94,6 +98,7 @@ export default function ProductEditScreen() {
     try {
       dispatch({ type: "UPDATE_REQUEST" });
       await axios.put(
+        br +
         `/api/products/${productId}`,
         {
           _id: productId,
@@ -108,7 +113,9 @@ export default function ProductEditScreen() {
           description,
         },
         {
-          headers: { Authorization: `Bearer ${userInfo.token}` },
+          headers: { Authorization: `Bearer ${userInfo.token}`,
+          "Access-Control-Allow-Origin": "*"
+         },
         }
       );
       dispatch({
@@ -127,10 +134,11 @@ export default function ProductEditScreen() {
     bodyFormData.append("file", file);
     try {
       dispatch({ type: "UPLOAD_REQUEST" });
-      const { data } = await axios.post("/api/upload", bodyFormData, {
+      const { data } = await axios.post(br + "/api/upload", bodyFormData, {
         headers: {
           "Content-Type": "multipart/form-data",
           authorization: `Bearer ${userInfo.token}`,
+          "Access-Control-Allow-Origin": "*"
         },
       });
       dispatch({ type: "UPLOAD_SUCCESS" });
