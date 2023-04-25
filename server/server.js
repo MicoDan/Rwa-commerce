@@ -22,7 +22,7 @@ mongoose.connect(MONGODB_URI)
 
 
 const app = express();
-app.use(cors({origin: ["http://localhost:5000", "https://rwacommerce.vercel.app"]}));
+app.use(cors({origin: "*" }));
 app.use(morgan("dev"))
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))

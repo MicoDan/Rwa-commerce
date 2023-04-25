@@ -34,7 +34,11 @@ function HomeScreen() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const result = await axios.get('https://rwashopbackend.onrender.com/api/products');
+        const result = await axios.get('https://rwashopbackend.onrender.com/api/products', {
+          headers: {
+            "Access-Control-Allow-Origin": "*"
+          }
+        });
         if(result){
         dispatch({ type: 'FETCH_SUCCESS', payload: result.data });
         }
