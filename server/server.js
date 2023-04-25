@@ -35,7 +35,7 @@ app.use('/api/users', userRouter)
 app.use('/api/orders', orderRouter)
 
 app.get("/api/keys/google", (req, res) => {
-  res.send({ key: process.env.GOOGLE_API_KEY || "" });
+  res.send({ key: process.env.GOOGLE_API_KEY });
 });
 
 app.get('./api/keys/paypal', (req, res) => {
