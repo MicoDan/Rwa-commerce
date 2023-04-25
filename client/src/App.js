@@ -36,8 +36,7 @@ import UserEditScreen from "./screens/UserEditScreen";
 import ForgetPasswordScreen from "./screens/ForgetPassword";
 import ResetPasswordScreen from "./screens/ResetPassword";
 import MapScreen from "./screens/MapScreen";
-import Slider from "./components/Slider";
-import HomeScreen from "./screens/HomeScre";
+import HomeScreen from "./screens/HomeScreen";
 import cart_icon from './icons/cart_nav.jpg'
 import linked_in from './icons/linked_in.jpg'
 import whatsapp from './icons/whatsapp.jpg'
