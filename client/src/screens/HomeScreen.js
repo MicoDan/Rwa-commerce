@@ -7,6 +7,7 @@ import { Helmet } from 'react-helmet-async';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
 import SearchBox from '../components/SearchBox'
+import br from '../utils'
 
 
 function HomeScreen() {
@@ -34,7 +35,7 @@ function HomeScreen() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const result = await axios.get('https://rwashopbackend.onrender.com/api/products', {
+        const result = await axios.get(br + '/api/products', {
           headers: {
             "Access-Control-Allow-Origin": "*"
           }

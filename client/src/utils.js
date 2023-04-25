@@ -3,3 +3,5 @@ export const getError = (error) => {
     ? error.response.data.message
     : error.message
 }
+
+export const br = process.env.BACKEND_URL

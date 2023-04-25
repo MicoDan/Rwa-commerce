@@ -26,7 +26,7 @@ export default function ForgetPasswordScreen() {
   const submitHandler = async (e) => {
     e.preventDefault();
     try {
-      const { data } = await Axios.post('/api/users/forget-password', {
+      const { data } = await Axios.post(br + '/api/users/forget-password', {
         email,
       });
       toast.success(data.message);
